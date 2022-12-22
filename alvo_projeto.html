@@ -1,0 +1,67 @@
+<h1>Tiro ao Alvo</h1><hr>
+<h3>Acertos: <span id="acertos"></span></h3>
+<h3>Erros: <span id="erros"></span></h3>
+<canvas width="600" height="400"></canvas>
+<script>
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    var x, y, acertos = 0, erros = 0;
+
+    pincel.fillStyle = 'lightgray';
+    pincel.fillRect(0, 0, 600, 400);
+
+    function desenhaCirculo(x, y, raio, color) {
+
+        pincel.fillStyle = color;
+        pincel.beginPath();
+        pincel.arc(x, y, raio, 0, 2 * Math.PI);
+        pincel.fill();
+
+    }
+
+    function desenharAlvo(){
+        x = Math.random() * 400 + 100; 
+        y = Math.random() * 200 + 100;
+        desenhaCirculo(x, y, 30, "red");
+        desenhaCirculo(x, y, 20, "white");
+        desenhaCirculo(x, y, 10, "red");
+
+    }
+
+    function limparTela() {
+
+        pincel.clearRect(0, 0, 600, 400);
+        pincel.fillStyle = 'lightgray';
+        pincel.fillRect(0, 0, 600, 400);
+    }
+
+    function atualizarTela(){
+
+        limparTela();
+        desenharAlvo();
+        
+    }
+
+    function atirar(event){
+        let mouseX = event.pageX - tela.offsetLeft;
+        let mouseY = event.pageY - tela.offsetTop; 
+
+        if (mouseX >= (x - 10) && mouseX <= (x + 10) && mouseY <= (y + 10) && mouseY >= (y - 10)){
+            acertos++;
+        } else {
+            erros++;
+        }
+
+        document.getElementById("acertos").innerHTML = acertos;
+        document.getElementById("erros").innerHTML = erros;
+    }
+
+    tela.onmousedown = atirar;
+    document.getElementById("acertos").innerHTML = acertos;
+    document.getElementById("erros").innerHTML = erros;
+    setInterval(atualizarTela, 1000);
+    
+    
+
+</script>

@@ -1,0 +1,52 @@
+<meta charset="UTF-8">
+
+<script>
+
+    //Definição de função para algoritmo do número que o computador escolhe
+    function sortear(num){
+        let sorteado = Math.round(Math.random() * num);
+        return sorteado;
+    }
+    //Descrição game
+    alert("O jogo consiste em o computador pensar em um número e você tentar acertar esse número.");
+
+    //Definição de variáveis
+    let pc, errorSwitch = 0;
+    do{
+        if (errorSwitch == 1){
+            alert("Valor inválido: Digite um número inteiro!");
+
+        }
+
+        pc = sortear(Math.ceil(parseInt(prompt("Digite o limite superior(máximo) para a adivinhação:"))));
+        errorSwitch = 1;
+
+    } while(isNaN(pc));
+    
+    let user, userTentativas = 0, ultimoChute = "Não houve chute ainda.", ultimaDica = "Sem dica ainda.";
+
+    //Procedimento principal - chutes/palpites
+    do{
+        user = Math.ceil(parseInt(prompt("Chute o número que estou pensando:\nTentativas: " + userTentativas +"\nÚltimo chute: " + ultimoChute + "\nÚltima dica: " + ultimaDica)));
+        userTentativas++;
+        if (isNaN(user)){
+            alert("Digite um valor válido, apenas números inteiros.")
+        } else if (user > pc){
+            alert("Chute muito alto, tente um número mais baixo");
+            ultimoChute = user;
+            ultimaDica = "Número alto, chute um menor."
+        } else if (user < pc){
+            alert("Chute muito baixo, tente um número mais alto");
+            ultimoChute = user;
+            ultimaDica = "Número baixo, chute um maior."
+        } else {
+            alert("Chute no gol, acertou!");
+        }
+    } while(pc != user);
+    
+    if (userTentativas == 1)
+        document.write("<h1>Você acertou de primeira. Parabéns, bem demais!</h1><br><hr>");
+    else
+        document.write("<h1>Você acertou em " + userTentativas + " tentativas. Parabéns!</h1><br><hr>");
+
+</script>
